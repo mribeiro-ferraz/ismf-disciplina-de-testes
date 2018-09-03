@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="full-materialize-employee :: page">
+<head th:replace="head">
+
+    <title id="pageTitle">Empresas</title>
+    <link th:fragment="styles"/>
+
+</head>
+<body>
+<!-- Body start-->
+<main th:fragment="content">
+    <div class="container">
+
+        <div class="row">
+
+
+            <div class="col s12 m9 l10">
+
+                <div id="categorias" class="section scrollspy">
+
+                    <div class="row">
+
+                        <div class="card red mackenzie">
+                            <div class="card-content white-text">
+                                <span class="card-title">Empresas</span>
+                            </div>
+                        </div>
+
+                        <div class="col s12">
+
+                            <div th:if="${companies.isEmpty()}" class="col s4 offset-s4">
+                                <div class="center-align">
+                                    <h4 class="thin">Você não está associado a nenhuma empresa</h4>
+                                    <!-- TODO add link to request company association -->
+                                </div>
+                            </div>
+
+                            <ul class="collapsible" data-collapsible="accordion" th:if="${!companies.isEmpty()}">
+                                <th:block th:each="company,i : ${companies}">
+                                    <li>
+                                        <div class="collapsible-header regular"><i
+                                                class="material-icons">folder_open</i>
+                                            <span th:text="${company.getName()}">Nome da empresa</span>
+                                        </div>
+
+                                        <div class="collapsible-body">
+                                            <div class="row">
+
+                                                <form th:id="'submitSelectedCompany' + ${company.getId()}"
+                                                      th:hidden="true"
+                                                      th:action="@{/answer/associated-companies/}"
+                                                      method="post">
+
+                                                    <input type="hidden" th:value="${company.getId()}"
+                                                           th:attr="name='selected-company-id'"/>
+                                                </form>
+
+                                                <div class="col s12 right-align full-btn-on-small-only">
+
+                                                    <a href="#" th:onclick="'selectCompany(\'' + ${company.getId()} + '\');'"
+                                                       class="waves-effect waves-light btn blue mackenzie">
+
+                                                        <i class="material-icons left">visibility</i>
+
+                                                        Responder por essa empresa
+
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </th:block>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Body end-->
+
+<script th:fragment="scripts">
+
+    function selectCompany(id) {
+        $('#submitSelectedCompany' + id).submit();
+    }
+
+</script>
+</body>
+</html>

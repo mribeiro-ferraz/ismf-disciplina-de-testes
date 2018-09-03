@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="materialize :: page">
+<head th:replace="head">
+
+    <title id="pageTitle">404 - Página não encontrada</title>
+
+</head>
+<body>
+
+<main th:fragment="content">
+    <div class="row s12">
+        <div class="col s4 offset-s4">
+            <div class="center-align vertial-align">
+                <h4 class="thin">Página não encontrada</h4>
+                <p class="medium">Desculpe, mas a página que você está tentando acessar não existe</p>
+
+                <a class="red mackenzie btn waves-effect waves-light" th:href="@{/}">Voltar para a página inicial</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:fragment="scripts">
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="full-materialize :: page">
+<head th:replace="head">
+
+    <title id="pageTitle">Pesquisa</title>
+
+    <link th:fragment="styles"/>
+
+
+</head>
+<body>
+
+<main th:fragment="content">
+
+    <div class="container">
+        <div class="row">
+
+            <h3 th:if="${survey.getId() == null}" class="thin red-text text-mackenzie">Nova Pesquisa</h3>
+            <h3 th:if="${survey.getId() != null}" class="thin red-text text-mackenzie">Editar Pesquisa</h3>
+
+            <h5 th:if="${survey.getId() == null}" class="thin red-text text-mackenzie">
+                Só precisamos de algumas informações, não demora nada!
+            </h5>
+
+            <form id="deleteSurveyForm"
+                  th:hidden="true"
+                  th:action="@{/system/surveys/delete/{componentId}(componentId = ${survey.getId()})}"
+                  th:if="${survey.getId() != null}"
+                  method="post">
+            </form>
+
+            <div class="col s12 m6 data-form">
+                <div class="row">
+                    <form class="col s12" method="post"
+                          th:action="${survey.id == null} ? '/system/surveys/new' : '/system/surveys/edit'"
+                          th:object="${survey}">
+
+
+                        <input type="hidden" th:field="*{id}" />
+                        <div class="row">
+                            <div class="input-field col s3">
+                                <input required
+                                       pattern=".{1,10}"
+                                       id="acronym"
+                                       type="text"
+                                       data-length="10"
+                                       class="validate"
+                                       th:field="*{prefix}"
+                                />
+                                <label for="acronym" data-error="Por favor, entre 1 e 10 caracteres!"
+                                       data-success="Tudo certo!">Acrônimo</label>
+                            </div>
+                            <div class="input-field col s9">
+                                <input required
+                                       pattern=".{5,50}"
+                                       id="title"
+                                       type="text"
+                                       data-length="50"
+                                       class="validate"
+                                       th:field="*{title}"
+                                />
+                                <label for="title"
+                                       data-error="Por favor, entre 5 e 50 caracteres!"
+                                       data-success="Tudo certo!">Título</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <textarea id="description"
+                                          class="materialize-textarea"
+                                          th:field="*{description}"
+                                          pattern="{,2000}"
+                                          data-length="2000">
+                                </textarea>
+                                <label for="description"
+                                       data-error="Por favor, menos de 2000 caracters!"
+                                       data-success="Tudo certo!">Descrição</label>
+                            </div>
+                        </div>
+                        <div class="row right">
+
+                            <a class="btn-flat grey-text waves-effect"
+                               th:href="@{/system/surveys/}">
+                                CANCELAR
+                            </a>
+                            <input type="submit" class="btn green waves-effect waves-light"
+                                   th:value="${survey.getId() == null} ? 'Criar' : 'Editar'">
+                        </div>
+
+                        <div class="row left">
+
+                            <a href="#" th:if="${survey.getId() != null}" onclick="deleteComponent();"
+                               class="btn-flat white-text waves-effect red mackenzie left">
+                                DELETAR
+                            </a>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="col s12 m6">
+
+                <ul class="collapsible popout" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header red mackenzie white-text"><i
+                                class="material-icons">priority_high</i>Instruções
+                        </div>
+
+                        <div class="collapsible-body">
+
+                            <span class="card-title">Lorem ipsum!</span>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor erat accumsan
+                                volutpat venenatis. Maecenas eleifend erat non tempus ornare. Aenean laoreet finibus
+                                eros, sed accumsan purus dapibus a. Aliquam sodales lorem euismod sollicitudin
+                                hendrerit. Vestibulum scelerisque neque sed ipsum finibus, et pellentesque augue
+                                pharetra. Sed gravida elit non purus molestie, in luctus metus sagittis. Etiam dolor
+                                urna, fringilla vitae elit eget, fermentum lacinia libero. Vestibulum maximus sagittis
+                                odio, sit amet condimentum nisl bibendum vel. Mauris non mollis mi. Curabitur ac dui
+                                ex. Vestibulum interdum dui eu venenatis pellentesque. In congue erat vitae malesuada
+                                gravida. Praesent aliquam scelerisque dui. Sed faucibus aliquet vestibulum. Duis rhoncus
+                                risus a nisi tempus commodo. Phasellus porttitor odio sit amet dolor fringilla sodales.
+                            </p>
+
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header red mackenzie white-text"><i
+                                class="material-icons">help</i>Perguntas Frequentes
+                        </div>
+                        <div class="collapsible-body">
+                            <div class="row s12">
+                                <h5 class="thin">FAQ</h5>
+                                <p class="regular red-text text-mackenzie">
+                                    Nós contamos com suas sugestões e perguntas para popularmos esta sessão.
+                                    <br>
+                                    Sinta-se livre para nos mandar quaisquer perguntas, no futuro, as respostas
+                                    serão enviadas para o seu e-mail de cadastro.
+                                </p>
+                                <form>
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <input required pattern="([A-zÀ-ž\s]){2,30}" id="subject"
+                                                   type="text"
+                                                   data-length="30"
+                                                   class="validate"/>
+                                            <label for="subject" data-error="Ops! Acho que há algo de errado!"
+                                                   data-success="Tudo certo!">Assunto</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <textarea id="question" class="materialize-textarea"></textarea>
+                                            <label for="question">Sua pergunta</label>
+                                        </div>
+                                    </div>
+                                    <div class="right">
+                                        <input type="reset" class="btn-flat grey-text waves-effect">
+                                        <input type="submit" class="btn green waves-effect waves-light disabled"
+                                               value="Perguntar">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:inline="javascript" th:if="${message != null}" th:fragment="scripts">
+    var header = /*[[${message.getHeader()}]]*/ 'Opa,';
+    var body = /*[[${message.getBody()}]]*/ 'Parece que algo deu errado';
+    var classifier = /*[[${message.getClassifier()}]]*/ 'error';
+
+    swal(header, body, classifier);
+</script>
+
+<script th:fragment="scripts">
+    function deleteComponent(){
+
+        swal({
+            title: "Você tem certeza?",
+            text: "Uma vez realizada, essa ação não poderá ser revertida.",
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Não, cancelar.",
+                    value: false,
+                    visible: true,
+                },
+                confirm: {
+                    text: "Sim, eu tenho certeza.",
+                    value: true,
+                    visible: true,
+                },
+            },
+        })
+            .then(function (willDelete) {
+                if(willDelete) {
+                    $('#deleteSurveyForm').submit();
+                }
+            });
+
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="full-materialize :: page">
+<head th:replace="head">
+
+    <title id="pageTitle">Pesquisas</title>
+
+    <link th:fragment="styles"/>
+
+
+</head>
+<body>
+
+<!--First time on Formium-->
+<main th:if="${surveys == null}" th:fragment="content">
+    <div class="section no-pad-bot" id="index-banner">
+
+        <div class="container">
+            <br><br>
+            <h1 class="header thin center red-text text-mackenzie">FORMIUM</h1>
+            <div class="row center">
+                <h5 class="header col s12 light">Uma maneira mais fácil de realizar suas pesquisas</h5>
+            </div>
+            <div class="row center">
+                <a href="http://materializecss.com/getting-started.html" id="download-button"
+                   class="btn-large red mackenzie waves-effect waves-red">Iniciar</a>
+            </div>
+            <br><br>
+
+        </div>
+    </div>
+    <div class="container">
+
+        <div class="section">
+
+            <!--   Icon Section   -->
+            <div class="row">
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
+                        <h5 class="center">Acelere a coleta de dados</h5>
+
+                        <p class="light">We did most of the heavy lifting for you to provide a default stylings that
+                            incorporate our custom components. Additionally, we refined animations and transitions to
+                            provide a smoother experience for developers.</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+                        <h5 class="center">Trabalhe em conjunto com as instituições</h5>
+
+                        <p class="light">By utilizing elements and principles of Material Design, we were able to create
+                            a
+                            framework that incorporates components and animations that provide more feedback to users.
+                            Additionally, a single underlying responsive system across all platforms allow for a more
+                            unified user experience.</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
+                        <h5 class="center">Fácil de utilizar</h5>
+
+                        <p class="light">We have provided detailed documentation as well as specific code examples to
+                            help
+                            new users get started. We are also always open to feedback and can answer any questions a
+                            user
+                            may have about Materialize.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br><br>
+    </div>
+</main>
+
+<!--Already has some work-->
+<main th:if="${surveys != null}" th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m9 l10">
+                <div id="desenvolvimento" class="section scrollspy">
+                    <div class="row">
+                        <div class="card red mackenzie">
+                            <div class="card-content white-text">
+                                <span class="card-title">Desenvolvimento</span>
+                            </div>
+                        </div>
+
+                        <div class="col s12" th:if="${surveys.size() == 0}">
+                            <div class="col s4 offset-s4">
+                                <div class="center-align">
+                                    <h4 class="thin">Não há pesquisas cadastradas</h4>
+                                    <p class="medium"> Você ainda não faz parte de nenhuma pesquisa
+                                        cadastrada.</p>
+                                    <a class="waves-effect waves-light btn blue"
+                                       th:href="@{/system/surveys/new/}">
+                                        <i class="material-icons left">add</i>
+                                        Nova pesquisa
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col s12" th:if="${surveys.size() != 0}">
+
+                            <ul class="collapsible" data-collapsible="accordion">
+
+                                <th:block th:each="survey : ${surveys}">
+
+                                    <li>
+
+                                        <div class="collapsible-header regular"><i
+                                                class="material-icons">folder_open</i>
+                                            <span th:text="${survey.getPrefix()}"></span> <span
+                                                    style="margin-left: 8px; margin-right: 8px"> - </span> <span
+                                                    th:text="${survey.getTitle()}">Título padrão</span>
+                                        </div>
+
+                                        <div class="collapsible-body">
+
+                                            <div class="row">
+
+                                                <div th:if="${survey.getDescription() == null}" class="col s12 m12">
+                                                    <div class="center-align">
+                                                        <h4 class="thin">Não há uma descrição cadastrada para este elemento</h4>
+                                                    </div>
+                                                </div>
+
+                                                <div th:if="${survey.getDescription() != null}" class="col s12 m12">
+                                                    <div class="card-panel red mackenzie">
+                                                        <span class="white-text" th:text="${survey.getDescription()}">
+                                                            Descrição de um questionário
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col s12 right-align full-btn-on-small-only">
+                                                    <a class="waves-effect waves-light btn orange accent-3 disabled"><i
+                                                            class="material-icons left">cloud</i>Publicar</a>
+
+                                                    <a class="waves-effect waves-light btn grey mackenzie"
+                                                       th:href="@{/system/surveys/edit/{id}(id = ${survey.getId()})}">
+                                                        <i class="material-icons left">settings</i>
+                                                        EDITAR
+                                                    </a>
+
+                                                    <a class="waves-effect waves-light btn blue mackenzie"
+                                                       th:href="@{/system/surveys/{id}(id = ${survey.getId()})}">
+                                                        <i class="material-icons left">visibility</i>
+                                                        Explorar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </th:block>
+                            </ul>
+
+                            <div class="col s12 m8 left full-btn-on-medium-only">
+                                <a class="waves-effect waves-light btn blue"
+                                   th:href="@{/system/surveys/new/}">
+                                    <i class="material-icons left">add</i>
+                                    Nova pesquisa
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col hide-on-small-only m3 l2">
+                <ul class="section table-of-contents pinned red-text text-mackenzie">
+                    <li><a class="red-text text-mackenzie" href="#desenvolvimento">Desenvolvimento</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:fragment="scripts">
+
+
+</script>
+
+</body>
+</html>

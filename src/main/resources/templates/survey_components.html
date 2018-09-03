@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="full-materialize :: page">
+<head th:replace="head">
+
+    <title id="pageTitle">Questionário</title>
+    <link th:fragment="styles"/>
+
+</head>
+<body>
+
+<main th:fragment="content">
+    <div class="container">
+
+        <nav class="clean left-align">
+            <div class="nav-wrapper">
+                <div class="col s12">
+                    <a th:href="@{/system/surveys/}" class="breadcrumb">Questionários</a>
+                    <th:block th:each="item,i : ${path}">
+                        <a th:href="@{/system/container/components/{id}(id = ${item.getId()})}" class="breadcrumb">
+                                    <span th:text="${#strings.abbreviate('__${item.descriptor()}__',15)}">
+                                        Item
+                                    </span></a>
+                    </th:block>
+                </div>
+            </div>
+        </nav>
+
+        <div class="row">
+
+            <!-- prefix - title -->
+            <h3 class="thin red-text text-mackenzie">
+                <span th:text="${currentSurvey.getPrefix()}">Prefixo</span>
+                 -
+                <span th:text="${currentSurvey.getTitle()}">Título</span>
+            </h3>
+
+            <div class="row">
+
+                <div class="col s12 m12">
+
+                    <div class="card">
+
+                        <!-- no description -->
+                        <div class="card-content" th:if="${currentSurvey.getDescription() == null}">
+                            <div class="center-align">
+                                <h4 class="thin">Não há uma descrição cadastrada para o presente questionário</h4>
+                            </div>
+                        </div>
+
+                        <!-- survey has description -->
+                        <div class="card-content" th:if="${currentSurvey.getDescription() != null}">
+                            <span class="card-title">Descrição</span>
+                            <span th:text="${currentSurvey.getDescription()}">
+                                    Descrição e um questionário.
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- buttons -->
+            <div class="col s12 m12 l10">
+                <div class="card-action left-align full-btn-on-medium-only">
+                    <a class="waves-effect waves-light btn orange accent-3 disabled"><i
+                            class="material-icons left">cloud</i>Publicar</a>
+
+                    <a class="waves-effect waves-light btn blue mackenzie"><i
+                            class="material-icons left">play_arrow</i>Visualizar</a>
+
+                    <a class="waves-effect waves-light btn grey mackenzie"
+                       th:href="@{/system/surveys/edit/{id}(id = ${currentSurvey.getId()})}">
+                        <i class="material-icons left">settings</i>
+                        Editar
+                    </a>
+                </div>
+            </div>
+
+            <div class="col s12 m12 l10">
+
+                <div id="desenvolvimento" class="section scrollspy">
+                    <div class="row">
+                        <div class="card red mackenzie">
+                            <div class="card-content white-text">
+                                <span class="card-title">Desenvolvimento</span>
+                            </div>
+                        </div>
+
+                        <div th:if="${questions.size() == 0 && subcategories.size() == 0}"
+                             class="col s12">
+                            <div class="col s12">
+                                <div class="center-align full-btn">
+                                    <h4 class="thin">Não há componentes cadastrados</h4>
+                                    <p class="medium"> Clique em uma das opções abaixo para criar um componente para a presente parte do questionário.</p>
+
+                                    <a class="waves-effect waves-light btn blue"
+                                       th:href="@{/system/categories/new/{id}(id = ${currentSurvey.getId()})}">
+                                        <i class="material-icons left">add</i>
+                                        Nova categoria</a>
+
+                                    <a class="waves-effect waves-light btn green"
+                                       th:href="@{/system/questions/new/{id}(id = ${currentSurvey.getId()})}">
+                                        <i class="material-icons left">add</i>
+                                        Nova questão</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:if="${questions.size() != 0 || subcategories.size() != 0}" class="col s12">
+
+                            <ul class="collapsible" data-collapsible="accordion">
+
+                                <th:block th:each="category,i : ${subcategories}">
+                                    <li>
+                                        <div class="collapsible-header regular">
+                                            <i class="material-icons">folder_open</i>
+                                            <span th:text="${category.getTitle()}" th:remove="tag">Título da categoria</span>
+                                        </div>
+
+                                        <div class="collapsible-body">
+
+                                            <!-- description -->
+                                            <div class="row">
+
+                                                <!-- no description for current category -->
+                                                <div th:if="${category.getDescription() == null}" class="col12">
+                                                    <div class="center-align">
+                                                        <h4 class="thin">Essa categoria não possui uma descrição</h4>
+                                                    </div>
+                                                </div>
+
+                                                <!-- it has a description -->
+                                                <div th:if="${category.getDescription() != null}" class="col12">
+                                                    <div class="card-panel red mackenzie">
+                                                        <span class="white-text" th:text="${category.getDescription()}">
+                                                            Descrição da categoria
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- buttons -->
+                                            <div class="row">
+
+                                                <div class="col s12 right-align full-btn-on-small-only">
+
+                                                    <a class="waves-effect waves-light btn grey mackenzie"
+                                                       th:href="@{/system/categories/edit/{id}(id = ${category.getId()})}">
+                                                        <i class="material-icons left">settings</i>
+                                                        EDITAR
+                                                    </a>
+
+                                                    <a class="waves-effect waves-light btn blue mackenzie"
+                                                       th:href="@{/system/categories/{id}(id = ${category.getId()})}">
+                                                        <i class="material-icons left">visibility</i>
+                                                        EXPLORAR
+                                                    </a>
+
+                                                    <a class="waves-effect waves-light btn white-text red mackenzie"
+                                                       href="#"
+                                                       th:if="${category.getId() != null}"
+                                                       th:onclick="${'javascript:deleteComponentList(' + category.getId() + ')'}">
+                                                        <i class="material-icons left">delete</i>
+                                                        DELETAR
+                                                    </a>
+
+                                                    <form th:id = "'deleteComponentListForm' + ${category.getId()}"
+                                                          th:hidden="true"
+                                                          th:action="@{/system/categories/delete/{componentId}(componentId = ${category.getId()})}"
+                                                          th:if="${category.getId() != null}"
+                                                          method="post">
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                </th:block>
+
+
+                                <!-- questions -->
+                                <th:block th:each="question,i : ${questions}">
+                                    <li>
+
+                                        <div class="collapsible-header regular">
+
+                                            <!-- header -->
+                                            <i class="material-icons">create</i>
+                                            <span th:text="${question.getHeader()}" th:remove="tag">
+                                                Cabeçalho da questão
+                                            </span>
+
+                                        </div>
+
+                                        <div class="collapsible-body">
+
+                                            <!-- buttons -->
+                                            <div class="row">
+
+                                                <!-- question type -->
+                                                <div class="col s1 left-align">
+                                                    <div class="chip">
+                                                        Likert <!-- TODO how to get the question type? -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="col s11 right-align full-btn-on-small-only">
+                                                    <a class="waves-effect waves-light btn blue mackenzie">
+                                                        <i class="material-icons left">play_arrow</i>Visualizar
+                                                    </a>
+                                                    <a class="waves-effect waves-light btn grey mackenzie"
+                                                       th:href="@{/system/questions/edit/{id}(id = ${question.getId()})}">
+                                                        <i class="material-icons left">settings</i>
+                                                        EDITAR
+                                                    </a>
+                                                    <a href="#"
+                                                       th:onclick="${'javascript:deleteQuestionList(' + question.getId() + ')'}"
+                                                       class="btn white-text waves-effect red mackenzie">
+                                                        <i class="material-icons left">delete</i>
+                                                        Deletar
+                                                    </a>
+
+                                                    <form th:id = "'deleteQuestionListForm' + ${question.getId()}"
+                                                          th:hidden="true"
+                                                          th:action="@{/system/questions/delete/{questionId}(questionId = ${question.getId()})}"
+                                                          method="post">
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                </th:block>
+                            </ul>
+
+                            <div style="padding-top: 12px" class="col s12 m8 left full-btn-on-medium-only">
+                                <a class="waves-effect waves-light btn blue"
+                                   th:href="@{/system/categories/new/{id}(id = ${currentSurvey.getId()})}">
+                                    <i class="material-icons left">add</i>
+                                    Nova categoria
+                                </a>
+                                <a class="waves-effect waves-light btn green"
+                                   th:href="@{/system/questions/new/{id}(id = ${currentSurvey.getId()})}">
+                                    <i class="material-icons left">add</i>
+                                    Nova questão
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col hide-on-small-only m3 l2">
+                <ul class="section table-of-contents pinned red-text text-mackenzie">
+                    <li><a class="red-text text-mackenzie" href="#desenvolvimento">Desenvolvimento</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:fragment="scripts">
+
+    function deleteQuestionList (id) {
+        deleteComponentQuestion(function () {
+            $('#deleteQuestionListForm' + id).submit();
+        });
+    }
+
+    function deleteComponentList (id) {
+        deleteComponentQuestion(function () {
+            $('#deleteComponentListForm' + id).submit();
+        });
+    }
+
+    function deleteComponentQuestion (ifPositive) {
+        swal({
+            title: "Você tem certeza?",
+            text: "Uma vez realizada, essa ação não poderá ser revertida.",
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Não, cancelar.",
+                    value: false,
+                    visible: true
+                },
+                confirm: {
+                    text: "Sim, eu tenho certeza.",
+                    value: true,
+                    visible: true
+                }
+            }
+        }).then(function (willDelete) {
+            if(willDelete) {
+                ifPositive();
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+<body>
+
+<header th:fragment="header">
+
+    <!-- Dropdown Structure -->
+    <ul id='dropdown-menu-select-company' class='dropdown-content'>
+        <li><a th:href="@{/answer/associated-companies}">Responder por outra empresa</a></li>
+    </ul>
+
+    <!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="#!">one</a></li>
+        <li><a href="#!">two</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">three</a></li>
+    </ul>
+
+    <nav class="red mackenzie" role="navigation">
+
+        <div class="nav-wrapper container">
+
+            <a id="logo-container" th:href="@{/}" class="brand-logo">
+                <img th:src="@{/resources/img/logo_mackenzie_branco.svg}">
+            </a>
+
+            <!-- Desktop links -->
+            <ul class="right hide-on-med-and-down">
+                <li><a onclick="logout()">Sair</a></li>
+            </ul>
+
+            <ul class="right hide-on-med-and-down" th:if="${session.AnsweringFor != null}">
+                <li><a th:href="@{/answer/}">Questionários</a></li>
+            </ul>
+
+            <ul class="right hide-on-med-and-down" th:if="${session.AnsweringFor != null}">
+
+                <li>
+                    <a class='dropdown-trigger' href="#!" data-activates="dropdown-menu-select-company">
+                        Respondendo por <span th:text="${session.AnsweringFor.name}"/>
+                        <i class="material-icons right">arrow_drop_down</i> <!--dropdown icon-->
+                    </a>
+                </li>
+
+            </ul>
+
+            <!-- Mobile links -->
+            <ul id="nav-mobile" class="side-nav">
+                <li th:if="${session.AnsweringFor != null}"><a th:href="@{/answer/}">Questionários</a></li>
+                <li><a th:href="@{/answer/associated-companies}">Selecionar Empresa</a></li>
+                <li><a onclick="logout()">Sair</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+
+        </div>
+
+        <!-- Logout action -->
+        <form id="logoutForm"
+              th:hidden="true"
+              th:action="@{/logout}"
+              method="post">
+        </form>
+    </nav>
+</header>
+
+<script th:fragment="scripts">
+
+    $(document).ready(function () {
+        $(".dropdown-trigger").dropdown({hover:true,constrain_width: false, belowOrigin: true});
+    });
+
+    function logout () {
+        document.getElementById("logoutForm").submit();
+    }
+
+</script>
+
+</body>
+</html>
+

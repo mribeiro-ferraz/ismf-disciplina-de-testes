@@ -1,0 +1,234 @@
+
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.icon-block {
+    padding: 0 15px;
+}
+.icon-block .material-icons {
+    font-size: inherit;
+}
+
+
+#toast-container > .toast {
+    background-image: none !important;
+}
+
+#toast-container > .toast:before {
+    position: fixed;
+    font-family: FontAwesome;
+    font-size: 24px;
+    line-height: 18px;
+    float: left;
+    color: #FFF;
+    padding-right: 0.5em;
+    margin: auto 0.5em auto -1.5em;
+}
+#toast-container > .toast-warning:before {
+    content: "\f003";
+}
+#toast-container > .toast-error:before {
+    content: "\f071";
+}
+#toast-container > .toast-info:before {
+    content: "\f005";
+}
+#toast-container > .toast-success:before {
+    content: "\f002";
+}
+
+
+nav.clean {
+    background: none;
+    box-shadow: none;
+}
+nav.clean .breadcrumb {
+    color: #CC081B;
+}
+nav.clean .breadcrumb:before {
+    color: #CC081B;
+}
+nav.flat, nav.round {
+    box-shadow: none;
+    background: transparent;
+}
+nav.flat .breadcrumb, nav.round .breadcrumb {
+    color: #d9d9d9;
+    display: inline-block;
+    padding-right: 1rem;
+    padding-left: calc(32px + 1rem);
+    margin-left: -3px;
+}
+nav.flat .breadcrumb:hover, nav.round .breadcrumb:hover {
+    transition: background ease 0.3s;
+}
+nav.flat .breadcrumb:hover:after, nav.round .breadcrumb:hover:after {
+    transition: border-left-color ease 0.3s, background ease 0.3s;
+}
+nav.flat .breadcrumb:before, nav.round .breadcrumb:before {
+    display: none;
+}
+nav.flat .breadcrumb:after, nav.round .breadcrumb:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    border: transparent 32px solid;
+    border-left-color: black;
+    margin-left: 1rem;
+}
+nav.flat .breadcrumb:nth-child(odd), nav.round .breadcrumb:nth-child(odd) {
+    background: #c2081a;
+}
+nav.flat .breadcrumb:nth-child(odd):after, nav.round .breadcrumb:nth-child(odd):after {
+    border-left-color: #c2081a;
+}
+nav.flat .breadcrumb:nth-child(odd):hover, nav.round .breadcrumb:nth-child(odd):hover {
+    background: #CC081B;
+}
+nav.flat .breadcrumb:nth-child(odd):hover:after, nav.round .breadcrumb:nth-child(odd):hover:after {
+    border-left-color: #CC081B;
+}
+nav.flat .breadcrumb:nth-child(odd):last-child:after, nav.round .breadcrumb:nth-child(odd):last-child:after {
+    border-color: #c2081a;
+}
+nav.flat .breadcrumb:nth-child(even), nav.round .breadcrumb:nth-child(even) {
+    background: #d6081c;
+}
+nav.flat .breadcrumb:nth-child(even):after, nav.round .breadcrumb:nth-child(even):after {
+    border-left-color: #d6081c;
+}
+nav.flat .breadcrumb:nth-child(even):hover, nav.round .breadcrumb:nth-child(even):hover {
+    background: #e0091e;
+}
+nav.flat .breadcrumb:nth-child(even):hover:after, nav.round .breadcrumb:nth-child(even):hover:after {
+    border-left-color: #e0091e;
+}
+nav.flat .breadcrumb:nth-child(even):last-child:after, nav.round .breadcrumb:nth-child(even):last-child:after {
+    border-color: #d6081c;
+}
+nav.flat .breadcrumb:last-child, nav.round .breadcrumb:last-child {
+    color: white;
+}
+nav.flat .breadcrumb:last-child:after, nav.round .breadcrumb:last-child:after {
+    border-left-width: 0;
+}
+nav.round .breadcrumb:after {
+    border-radius: 0 65px 65px 0;
+    width: 32px;
+    height: 64px;
+    background: #CC081B;
+    border: none;
+}
+nav.round .breadcrumb:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+nav.round .breadcrumb:nth-child(odd):after {
+    background: #c2081a;
+}
+nav.round .breadcrumb:nth-child(odd):hover:after {
+    background: #CC081B;
+}
+nav.round .breadcrumb:nth-child(odd):last-child:after {
+    border-color: #c2081a;
+}
+nav.round .breadcrumb:nth-child(even):after {
+    background: #d6081c;
+}
+nav.round .breadcrumb:nth-child(even):hover:after {
+    background: #e0091e;
+}
+nav.round .breadcrumb:nth-child(even):last-child:after {
+    border-color: #d6081c;
+}
+nav.round .breadcrumb:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+nav.expand .breadcrumb {
+    color: transparent !important;
+    width: 0;
+    padding-left: 32px;
+    padding-right: 0;
+    transition: width ease 0.3s, padding-left ease 0.3s, padding-right ease 0.3s;
+}
+nav.expand .breadcrumb:after {
+    margin-left: 0;
+    transition: margin-left ease 0.3s;
+}
+nav.expand .breadcrumb:last-child, nav.expand .breadcrumb:hover {
+    color: inherit !important;
+    width: auto;
+    padding-right: 1rem;
+    padding-left: calc(32px + 1rem);
+    transition: width ease 0.3s, padding-left ease 0.3s, padding-right ease 0.3s;
+}
+nav.expand .breadcrumb:last-child:after, nav.expand .breadcrumb:hover:after {
+    margin-left: 1rem;
+    transition: margin-left ease 0.3s;
+}
+nav.dot {
+    background: none;
+    box-shadow: none;
+}
+nav.dot a {
+    position: relative;
+    color: #6f6f6f;
+    display: inline-block;
+    padding: 0 2.5rem;
+}
+nav.dot a:hover:before, nav.dot a:hover:first-child:before {
+    width: 12px;
+    height: 12px;
+    margin: 0 0 0 -6px;
+    bottom: -1px;
+}
+nav.dot a:before, nav.dot a:first-child:before {
+    content: "";
+    position: absolute;
+    background: #CC081B;
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: 0 0 0 -5px;
+    border-radius: 50%;
+    bottom: 0;
+    left: 50%;
+    z-index: 1;
+    transition: width ease-in 0.1s, height ease-in 0.1s, margin ease-in 0.1s, bottom ease-in 0.1s;
+}
+nav.dot a:after {
+    content: "";
+    position: absolute;
+    background: #CC081B;
+    display: block;
+    width: calc(100% + 15px);
+    height: 2px;
+    bottom: 4px;
+    left: 50%;
+}
+nav.dot a:nth-last-child(2):after {
+    width: calc(100% + 5px);
+    background: #f84c5d;
+}
+nav.dot a:last-child {
+    color: black;
+}
+nav.dot a:last-child:hover:before, nav.dot a:last-child:hover:first-child:before {
+    width: 10px;
+    height: 10px;
+    margin: 0 0 0 -5px;
+    bottom: 0px;
+}
+nav.dot a:last-child:before {
+    background: #f84c5d;
+}
+nav.dot a:last-child:after {
+    display: none;
+}

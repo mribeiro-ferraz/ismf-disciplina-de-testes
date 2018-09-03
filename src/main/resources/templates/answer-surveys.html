@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="full-materialize-employee :: page">
+<head th:replace="head">
+
+    <title id="pageTitle">Resposta</title>
+    <link th:fragment="styles"/>
+
+</head>
+<body>
+<!-- Body start-->
+<main th:fragment="content">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col s12">
+
+                <div id="categorias" class="section scrollspy">
+
+                    <div class="row">
+
+                        <div class="card red mackenzie">
+                            <div class="card-content white-text">
+                                <span class="card-title">Questionários</span>
+                            </div>
+                        </div>
+
+                        <div class="col s12">
+
+                            <div th:if="${surveys.isEmpty()}" class="col s4 offset-s4">
+                                <div class="center-align">
+                                    <h4 class="thin">Não há questionários publicados</h4>
+                                </div>
+                            </div> <!-- in case there is no child category -->
+
+                            <ul th:if="${!surveys.isEmpty()}" class="collapsible" data-collapsible="accordion" >
+                                <th:block th:each="survey,i : ${surveys}">
+                                    <li>
+                                        <div class="collapsible-header regular"><i
+                                                class="material-icons">folder_open</i>
+                                            <span th:text="${survey.getTitle()}">Título do questionário</span>
+                                        </div>
+
+                                        <div class="collapsible-body">
+                                            <div class="row">
+
+                                                <div class="col s12 m12">
+                                                    <div th:if="${survey.getDescription() != null}"
+                                                         class="card-panel red mackenzie">
+                                                            <span class="white-text" th:text="${survey.getDescription()}">
+                                                            </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col s12 right-align full-btn-on-small-only">
+                                                    <a th:href="@{/answer/container/{id}(id = ${survey.getId()})}"
+                                                       class="waves-effect waves-light btn blue mackenzie">
+                                                        <i class="material-icons left">visibility</i>Explorar</a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </th:block>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</main>
+<!-- Body end-->
+
+<script th:fragment="scripts">
+
+
+</script>
+</body>
+</html>

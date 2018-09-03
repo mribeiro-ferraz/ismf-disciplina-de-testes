@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="full-materialize-employee :: page">
+<head th:replace="head">
+
+    <title id="pageTitle">Resposta</title>
+    <link th:fragment="styles"/>
+
+</head>
+<body>
+<!-- Body start-->
+<main th:fragment="content">
+    <div class="container">
+
+        <nav class="clean left-align">
+            <div class="nav-wrapper">
+                <div class="col s12">
+                    <a th:href="@{/answer/}" class="breadcrumb">Questionários</a>
+                    <th:block th:each="item,i : ${path}">
+                        <a th:href="@{/answer/container/{id}(id = ${item.getId()})}" class="breadcrumb">
+                                    <span th:text="${#strings.abbreviate('__${item.descriptor()}__',15)}">
+                                        Item
+                                    </span></a>
+                    </th:block>
+                </div>
+            </div>
+        </nav>
+
+        <div class="row">
+
+            <!-- survey -->
+            <div th:if="${survey != null && category == null}">
+
+                <h3 class="thin red-text text-mackenzie">
+                    <span th:text="${survey.getTitle()}">Título do questionário</span>
+                </h3>
+
+                <h5 class="thin red-text text-mackenzie">
+                    <span th:text="${survey.getPrefix()}">PREFIXO</span>
+                </h5>
+
+            </div>
+
+            <!-- category -->
+            <div th:if="${survey == null && category != null}">
+                <h3 class="thin red-text text-mackenzie">
+                    <span th:text="${category.getTitle()}">Título de categoria</span>
+                </h3>
+            </div>
+
+            <div class="col s12 m9 l10">
+
+                <div class="row" th:if="${survey != null} ? ${survey.getDescription() != null} :
+                                                            ${category.getDescription() != null}">
+
+                    <div class="col s12 m12">
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title">Descrição</span>
+                                <span th:text="${survey != null} ? ${survey.getDescription()}
+                                                             : ${category.getDescription()}">
+                                    Descrição de um container.
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No survey component for current container -->
+                <div id="no-child-container" class="section scrollspy" th:if="${categories.isEmpty() && answersWrapper.getAnswersList().isEmpty()}">
+                    <div class="col s12">
+                        <div class="col s4 offset-s4">
+                            <div class="center-align">
+                                <h4 class="thin">Não existem categorias ou questões na presente parte do questionário.</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="categorias" class="section scrollspy" th:if="${!categories.isEmpty()}">
+
+                    <div class="row">
+
+                        <div class="card red mackenzie">
+                            <div class="card-content white-text">
+                                <span class="card-title">Categorias</span>
+                            </div>
+                        </div>
+
+                        <div class="col s12">
+
+                            <ul class="collapsible" data-collapsible="accordion" th:if="${!categories.isEmpty()}">
+                                <th:block th:each="currentCategory,i : ${categories}">
+                                    <li>
+                                        <div class="collapsible-header regular"><i
+                                                class="material-icons">folder_open</i>
+                                            <span th:text="${currentCategory.getTitle()}">Título da categoria</span>
+                                        </div>
+
+                                        <div class="collapsible-body">
+                                            <div class="row">
+
+                                                <div class="col s12 m12">
+                                                    <div th:if="${currentCategory.getDescription() != null}"
+                                                         class="card-panel red mackenzie">
+                                                            <span class="white-text" th:text="${currentCategory.getDescription()}">
+                                                            </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col s12 right-align full-btn-on-small-only">
+                                                    <a th:href="@{/answer/container/{id}(id = ${currentCategory.getId()})}"
+                                                       class="waves-effect waves-light btn blue mackenzie">
+                                                        <i class="material-icons left">visibility</i>Explorar</a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </th:block>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="questoes" class="section scrollspy" th:if="${!answersWrapper.getAnswersList().isEmpty()}">
+
+                    <div class="row">
+
+                        <div class="card red mackenzie">
+                            <div class="card-content white-text">
+                                <span class="card-title">Questões</span>
+                            </div>
+                        </div>
+
+                        <div class="col s10 offset-s1">
+
+                            <div class="row s12">
+
+                                <div th:if="${!answersWrapper.getAnswersList().isEmpty()}">
+
+                                    <form action="#" th:action="@{/answer/category/}" th:object="${answersWrapper}" method="post">
+
+                                        <th:block th:each="answer,i : ${answersWrapper.getAnswersList()}">
+
+                                            <input type="hidden" th:field="*{answersList[__${i.index}__].id}" />
+                                            <input type="hidden" th:field="*{answersList[__${i.index}__].correspondingQuestionId}" />
+                                            <input type="hidden" th:field="*{idCurrentContainer}" />
+
+                                            <div class="section row">
+                                                <div>
+                                                    <p class="col s12">
+                                                        <span th:text="${answer.getCorrespondingQuestionHeader()}"></span>
+                                                    </p>
+                                                </div> <!-- question header -->
+
+                                                <div class="col s12 valign-wrapper center-align">
+
+                                                    <div class="col s2">
+                                                        <span th:text="${answer.getCorrespondingQuestionLeftText()}">Discordo Totalmente</span>
+                                                    </div>
+
+                                                    <!-- Looping over radio buttons -->
+                                                    <th:block
+                                                            th:each="j: ${#numbers.sequence(answer.getCorrespondingQuestionLeftValue(), answer.getCorrespondingQuestionRightValue())}">
+
+                                                        <div class="col s1"
+                                                             th:with="answerIdentifier = ${j.intValue()} + '-' + ${i.index}">
+
+                                                            <input type="radio" th:name="'group' + ${i.index}"
+                                                                   th:id="${answerIdentifier}"
+                                                                   th:field="*{answersList[__${i.index}__].selectedValue}"
+                                                                   th:value="${j.intValue()}">
+                                                            <label th:for="${answerIdentifier}"
+                                                                   class="option_label"></label>
+                                                        </div>
+
+                                                    </th:block>
+
+                                                    <div class="col s2">
+                                                        <span th:text="${answer.getCorrespondingQuestionRightText()}">Concordo Plenamente</span>
+                                                    </div>
+
+                                                </div> <!-- options -->
+                                            </div> <!-- question -->
+
+                                            <!-- Divisions occurring only between two questions-->
+                                            <div class="divider" th:if="${!i.last}"></div>
+
+                                        </th:block>
+
+                                        <div class="row right">
+
+                                            <input type="submit"
+                                                   class="btn green waves-effect waves-light"
+                                                   value="Responder">
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row right" th:if="${survey == null}">
+                    <a th:href="@{/answer/container/{id}(id = ${category.getParentId()})}"
+                       class="waves-effect waves-light btn blue mackenzie">
+                        <i class="material-icons left">visibility</i>
+                        Voltar
+                    </a>
+                </div>
+
+                <div class="row right" th:if="${survey != null}">
+                    <a th:href="@{/answer/}"
+                       class="waves-effect waves-light btn blue mackenzie">
+                        <i class="material-icons left">visibility</i>
+                        Voltar para questionários
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="col hide-on-small-only m3 l2">
+                <ul class="section table-of-contents pinned red-text text-mackenzie">
+                    <li th:if="${!categories.isEmpty()}"><a class="red-text text-mackenzie" href="#categorias">Categorias</a></li>
+                    <li th:if="${!answersWrapper.getAnswersList().isEmpty()}"><a class="red-text text-mackenzie" href="#questoes">Questões</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Body end-->
+
+<script th:fragment="scripts">
+
+
+</script>
+</body>
+</html>

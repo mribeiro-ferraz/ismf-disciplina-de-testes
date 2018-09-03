@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="full-materialize :: page">
+<head th:replace="head">
+
+    <title id="pageTitle">Questão</title>
+    <link th:fragment="styles"/>
+
+</head>
+<body>
+
+<main th:fragment="content">
+    <div class="container">
+        <div class="row">
+
+            <h3 th:if="${question.getId() == null}" class="thin red-text text-mackenzie">Nova Questão</h3>
+            <h3 th:if="${question.getId() != null}" class="thin red-text text-mackenzie">Editar Questão</h3>
+            <h5 th:if="${question.getId() == null}" class="thin red-text text-mackenzie">
+                Só precisamos de algumas informações, não demora nada!
+            </h5>
+
+            <form id="deleteQuestionForm"
+                  th:hidden="true"
+                  th:action="@{/system/questions/delete/{questionId}(questionId = ${question.getId()})}"
+                  method="post">
+            </form>
+
+            <form class="col s12 m6 data-form"
+
+                  th:action="${question.id == null} ? '/system/questions/new/' : '/system/questions/edit/'"
+                  th:object="${question}" method="post">
+
+                <input type="hidden" th:field="*{id}"/>
+                <input type="hidden" th:field="*{parentId}"/>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <select>
+                                    <option value="" disabled>Selecione</option>
+                                    <option value="1" selected>Likert</option>
+                                    <option value="" disabled>Discursiva</option>
+                                    <option value="" disabled>Múltipla escolha</option>
+                                </select>
+                                <label>Categoria da questão</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <textarea required id="header"
+                                          pattern="{,2000}"
+                                          class="materialize-textarea validate"
+                                          th:field="*{header}"
+                                          data-length="2000">
+                                </textarea>
+                                <label for="header">Cabeçalho</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s2">
+                                <select class="changer" th:field="*{leftValue}" data-target="toLeft" required>
+                                    <option value="0">0</option>
+                                    <option value="1" selected>1</option>
+                                </select>
+                            </div>
+                            <div class="col s1 center-align">
+                                <p style="margin-top: 28px;"> até </p>
+                            </div>
+                            <div class="input-field col s2">
+                                <select class="changer" th:field="*{rightValue}" data-target="toRight" required>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7" selected>7</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 red-text text-mackenzie">
+                                <span id="toLeft">1</span>
+                                <div class="input-field inline">
+                                    <input
+                                            pattern="{1,50}"
+                                            data-length="50"
+                                            id="left"
+                                            type="text"
+                                            class="validate"
+                                            th:field="*{leftText}"
+                                            placeholder="Discordo Totalmente">
+                                    <label class="regular" for="left"
+                                           data-error="Um valor não vazio e menor do que 50 caracteres"
+                                           data-success="Tudo certo!">Esquerda</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 red-text text-mackenzie">
+                                <span id="toRight">7</span>
+                                <div class="input-field inline">
+                                    <input pattern="{1,50}"
+                                           data-length="50"
+                                           id="right"
+                                           type="text"
+                                           class="validate"
+                                           th:field="*{rightText}"
+                                           placeholder="Concordo Totalmente">
+                                    <label class="regular" for="right"
+                                           data-error="Um valor não vazio e menor do que 50 caracteres"
+                                           data-success="Tudo certo!">Direita</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row right">
+
+                            <a class="btn-flat grey-text waves-effect"
+                               th:href="@{/system/container/components/{id}(id = ${question.getParentId()})}">
+                                CANCELAR
+                            </a>
+
+                            <input type="submit" class="btn green waves-effect waves-light"
+                                   th:value="${question.getId() == null} ? 'Criar' : 'Editar'"/>
+                        </div>
+                        <div class="row left">
+                            <a href="#" th:if="${question.getId() != null}" onclick="deleteQuestion();"
+                               class="btn-flat white-text waves-effect red mackenzie left">
+                                DELETAR
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="col s12 m6">
+
+                <div class="row center">
+
+                </div>
+
+                <div class="row">
+                    <ul class="collapsible popout" data-collapsible="accordion">
+                        <li>
+                            <div class="collapsible-header red mackenzie white-text"><i
+                                    class="material-icons">priority_high</i>Instruções
+                            </div>
+
+                            <div class="collapsible-body">
+
+                                <span class="card-title">Lorem ipsum!</span>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor erat accumsan
+                                    volutpat venenatis. Maecenas eleifend erat non tempus ornare. Aenean laoreet finibus
+                                    eros, sed accumsan purus dapibus a. Aliquam sodales lorem euismod sollicitudin
+                                    hendrerit. Vestibulum scelerisque neque sed ipsum finibus, et pellentesque augue
+                                    pharetra. Sed gravida elit non purus molestie, in luctus metus sagittis. Etiam dolor
+                                    urna, fringilla vitae elit eget, fermentum lacinia libero. Vestibulum maximus sagittis
+                                    odio, sit amet condimentum nisl bibendum vel. Mauris non mollis mi. Curabitur ac dui
+                                    ex. Vestibulum interdum dui eu venenatis pellentesque. In congue erat vitae malesuada
+                                    gravida. Praesent aliquam scelerisque dui. Sed faucibus aliquet vestibulum. Duis rhoncus
+                                    risus a nisi tempus commodo. Phasellus porttitor odio sit amet dolor fringilla sodales.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header red mackenzie white-text"><i
+                                    class="material-icons">help</i>Perguntas Frequentes
+                            </div>
+                            <div class="collapsible-body">
+                                <div class="row s12">
+                                    <h5 class="thin">FAQ</h5>
+                                    <p class="regular red-text text-mackenzie">
+                                        Nós contamos com suas sugestões e perguntas para popularmos esta sessão.
+                                        <br>
+                                        Sinta-se livre para nos mandar quaisquer perguntas, no futuro, as respostas
+                                        serão enviadas para o seu e-mail de cadastro.
+                                    </p>
+                                    <form>
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input required pattern="([A-zÀ-ž\s]){2,30}" id="subject"
+                                                       type="text"
+                                                       data-length="30"
+                                                       class="validate"/>
+                                                <label for="subject" data-error="Ops! Acho que há algo de errado!"
+                                                       data-success="Tudo certo!">Assunto</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <textarea id="question" class="materialize-textarea"></textarea>
+                                                <label for="question">Sua pergunta</label>
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <input type="reset" class="btn-flat grey-text waves-effect">
+                                            <input type="submit" class="btn green waves-effect waves-light disabled"
+                                                   value="Perguntar">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script th:fragment="scripts">
+
+    $(document).ready(function () {
+        $('.changer').on('change', function () {
+            $('#' + $(this).data('target')).html($(this).val())
+        });
+
+        $('select').material_select();
+    });
+
+    function deleteQuestion(){
+
+        swal({
+            title: "Você tem certeza?",
+            text: "Uma vez realizada, essa ação não poderá ser revertida.",
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Não, cancelar.",
+                    value: false,
+                    visible: true
+                },
+                confirm: {
+                    text: "Sim, eu tenho certeza.",
+                    value: true,
+                    visible: true
+                }
+            }
+        })
+        .then(function (willDelete) {
+            if(willDelete) {
+                $('#deleteQuestionForm').submit();
+            }
+        });
+
+    }
+
+</script>
+
+<script th:inline="javascript" th:if="${message != null}" th:fragment="scripts">
+    var header = /*[[${message.getHeader()}]]*/ 'Opa!';
+    var body = /*[[${message.getBody()}]]*/ 'Parece que algo deu errado';
+    var classifier = /*[[${message.getClassifier()}]]*/ 'error';
+
+    swal(header, body, classifier);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:th="http://www.thymeleaf.org"
+
+       th:fragment="page">
+
+<head>
+    <!-- Title of the page -->
+    <title th:include = " :: #pageTitle">Formium</title>
+
+    <meta charset="UTF-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <!-- Default Style -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" media="screen,projection" th:href="@{/resources/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen,projection" th:href="@{/resources/css/custom.css}"/>
+    <link th:replace="this :: styles"/>
+</head>
+<body>
+
+<!-- Nav bar of the page -->
+<!--<th:block th:include="navbar :: navbar"></th:block>-->
+<header th:replace="header-employee :: header"></header>
+
+<!-- Main content of the page -->
+<main th:replace="this :: content"></main>
+
+<!-- Footer of the page -->
+<footer th:replace="footer :: footer"></footer>
+
+<!-- Scripts  -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script th:src="@{/resources/js/init.js}"></script>
+<script th:replace="this :: scripts"></script>
+<script th:replace="header-employee :: scripts"></script>
+
+<script th:inline="javascript" th:if="${message != null}">
+    var header = /*[[${message.getHeader()}]]*/ 'Opa!';
+    var body = /*[[${message.getBody()}]]*/ 'Parece que algo deu errado';
+    var classifier = /*[[${message.getClassifier()}]]*/ 'error';
+
+    swal(header, body, classifier);
+</script>
+
+
+</body>
+</html>

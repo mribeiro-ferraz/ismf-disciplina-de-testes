@@ -1,0 +1,96 @@
+/* Custom Stylesheet */
+
+/**
+ *
+ * Made By MackLeaps
+ */
+
+/* For the 404 and 500 page */
+.vertial-align {
+    margin: 0px;
+    padding: 0px;
+    float: left;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    left: 50%;
+}
+
+.data-form {
+    margin-top: 12px;
+}
+
+/* Mackenzie colors */
+.red.mackenzie {
+    background-color: #CC081B !important;
+}
+
+.blue.mackenzie {
+    background-color: #438DCC !important;
+}
+
+.grey.mackenzie {
+    background-color: #0081a0 !important;
+}
+
+.red-text.text-mackenzie {
+    color: #CC081B !important;
+}
+
+.pagination li.active {
+    background-color: #CC081B !important;
+}
+
+.tabs .tab a:hover, .tabs .tab a.active {
+    color: #CC081B !important;
+}
+
+.tabs .indicator {
+    background-color: #CC081B !important;
+}
+
+
+/* For the Mackenzie Logo */
+nav {
+    min-height: 62px;
+}
+
+nav .brand-logo img {
+    margin-top: 3px;
+}
+
+.page-mapping {
+    margin-top: 15px;
+}
+
+@media only screen and (max-width: 840px) {
+    .full-btn-on-small-only > .btn {
+        margin-top: 12px;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 1150px) {
+    .full-btn-on-medium-only > .btn {
+        margin-top: 12px;
+        width: 100%;
+    }
+}
+
+.full-btn > .btn {
+    margin-top: 12px;
+    width: 100%;
+}
+
+/*Sticky footer*/
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+

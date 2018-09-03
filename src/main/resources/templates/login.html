@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="materialize :: page">
+<head th:replace="head">
+
+    <title id="pageTitle">Login</title>
+
+</head>
+<body>
+
+
+<main th:fragment="content">
+    <div class="row s12">
+        <div class="col s4 offset-s4">
+            <div class="card hoverable red-text text-mackenzie vertial-align">
+                <form th:action="@{/login}" method="post">
+                    <div class="card-content red mackenzie white-text">
+                        <span class="card-title">Entre com suas credenciais</span>
+                    </div>
+                    <div class="card-content grey lighten-4">
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input required type="email" id="email" class="validate" name="email"/>
+                                <label for="email" data-error="Ops! Esse email não está correto"
+                                       data-success="Tudo certo!">Entre com seu e-mail</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input required id="password" type="password" class="validate" name="password"/>
+                                <label for="password">Entre com sua senha</label>
+                            </div>
+
+                            <div class="right-align">
+                                <input type="checkbox" id="remember"/>
+                                <label for="remember">Lembre-me</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action right-align full-btn">
+                        <a class="waves-effect waves-light btn blue disabled"><i
+                                class="material-icons left">email</i>Esqueci minha senha</a>
+                        <button type="submit" class="waves-effect waves-light btn red mackenzie"><i
+                                class="material-icons left">security</i>Entrar
+                        </button>
+                    </div>
+
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<script th:inline="javascript" th:if="${message != null}" th:fragment="scripts">
+    var header = /*[[${message.getHeader()}]]*/ 'Opa,';
+    var body = /*[[${message.getBody()}]]*/ 'Parece que algo deu errado';
+    var classifier = /*[[${message.getClassifier()}]]*/ 'error';
+
+    swal(header, body, classifier);
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head></head>
+<body>
+
+<header th:fragment="header">
+    <nav class="red mackenzie" role="navigation">
+
+        <div class="nav-wrapper container">
+
+            <a id="logo-container" th:href="@{/}" class="brand-logo">
+                <img th:src="@{/resources/img/logo_mackenzie_branco.svg}">
+            </a>
+
+            <!-- Desktop links -->
+            <ul class="right hide-on-med-and-down">
+                <li><a onclick="logout()">Sair</a></li>
+            </ul>
+
+            <ul class="right hide-on-med-and-down">
+                <li><a th:href="@{/}">Pesquisas</a></li>
+            </ul>
+
+            <!--<ul class="right hide-on-med-and-down">-->
+                <!--<li><a href="#">Perfil</a></li>-->
+            <!--</ul>-->
+
+            <!-- Mobile links -->
+            <ul id="nav-mobile" class="side-nav">
+                <!--<li><a href="#">Perfil</a></li>-->
+                <li><a th:href="@{/}">Pesquisas</a></li>
+                <li><a onclick="logout()">Sair</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+
+        </div>
+
+        <!-- Logout action -->
+        <form id="logoutForm"
+              th:hidden="true"
+              th:action="@{/logout}"
+              method="post">
+        </form>
+    </nav>
+</header>
+
+<script th:fragment="scripts">
+    function logout () {
+        document.getElementById("logoutForm").submit();
+    }
+</script>
+
+</body>
+</html>
+
